@@ -22,7 +22,7 @@ router
 
 router
     .route('/:thoughtId/reactions')
-    .post(createReaction)
+    .post(addReaction)
     .delete(deleteReaction);
 
 module.exports = router;
