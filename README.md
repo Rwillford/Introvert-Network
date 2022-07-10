@@ -53,7 +53,17 @@ I WANT an API for my social network that uses a NoSQL database<br>
   All tested out on Insomina
 
   ## Comments
+  Here are the videos of the application working:
   
+  
+
+https://user-images.githubusercontent.com/99914942/178161151-bea879c6-b716-4843-bad4-872162739139.mp4
+
+
+
+https://user-images.githubusercontent.com/99914942/178161154-6117b945-f191-4543-be21-4137d2e34721.mp4
+
+
 
   ## Questions
   
