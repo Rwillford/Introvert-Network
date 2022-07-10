@@ -16,11 +16,9 @@ const userController = {
         User.findOne({ _id: params.id })
         .populate({
             path: 'thoughts',
-            select: '-__v'
         })
         .populate({
             path: 'friends',
-            select: '-__v'
         })
         .select('-__v')
         .sort({ _id: -1 })
@@ -45,15 +43,12 @@ const userController = {
     },
 
     //Add Friend to User's Friend list
-    createFriend({ params , body }, res) {
-        User.create(body)
-        .then(({ _id }) => {
-            return User.findOneAndUpdate(
+    createFriend({ params, body }, res) {
+        User.findOneAndUpdate(
                 { _id: params.userId },
-                { $push: { friends: _id } },
+                { $push: { friends: body.friendsId } },
                 { new: true }
-            );
-        })
+        )
         .then(dbUserData => {
             if (!dbUserData) {
                 res.status(404).json({ message: 'No User Found with this ID!'})
@@ -98,19 +93,19 @@ const userController = {
 
     //Delete Friend :(
     deleteFriend({ params }, res) {
-        User.findOneAndDelete({ _id: params.userId })
-        .then(deletedFriend => {
-            if (!deletedFriend) {
-                return res.status(404).json({ message: 'No friend found with this ID'})
+        User.findOneAndUpdate(
+            { _id: params.userId },
+            { $pull: { friends: { friendsId: params.friendsId } } },
+            { new: true}
+        )
+        .then(dbUserData => {
+            if (!dbUserData) {
+                res.status(404).json({ message: 'No Use found with this ID!' })
+                return;
             }
-            return User.findOneAndUpdate(
-                { _id: params.userId },
-                { $pull: { friends: { userId: params.userId}}},
-                { new: true }
-            )
-            .then(dbUserData => res.json(dbUserData))
-            .catch(err => res.json(err));
+            res.json(dbUserData);
         })
+        .catch(err => res.json(err));
     }
 
 };
