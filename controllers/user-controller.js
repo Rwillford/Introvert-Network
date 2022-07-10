@@ -15,7 +15,7 @@ const userController = {
     getUserById({ params }, res) {
         User.findOne({ _id: params.id })
         .populate({
-            path: 'thouhgts',
+            path: 'thoughts',
             select: '-__v'
         })
         .populate({
