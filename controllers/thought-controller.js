@@ -95,7 +95,7 @@ const thoughtController = {
             console.log("This is the deleted Thought:", deletedThought)
             return User.findOneAndUpdate(
                 { _id: body.userId },
-                { $pull: { thoughts: params.thoughtId } },
+                { $pull: { thoughts: body.thoughtId } },
                 { new: true }
             );
         })
@@ -112,11 +112,10 @@ const thoughtController = {
         })
     },
     //Delete A Reaction
-    deleteReaction({ params }, res) {
-        Thought.findOneAndDelete(
+    deleteReaction({ params, body }, res) {
+        Thought.findOneAndUpdate(
             { _id: params.thoughtId },
-            { $pull: { reactions: { reactionId: params.reactionId } } },
-            { new: true }
+            { $pull: { reactions: { reactionId: body.reactionId } } }
         )
         .then(dbThoughtData => res.json(dbThoughtData))
         .catch(err => res.json(err));
